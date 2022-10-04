@@ -1,0 +1,18 @@
+{
+  "name": "moviesapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Flanker",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "helmet": "^6.0.0",
+    "joi": "^17.6.2",
+    "mongoose": "^6.6.4"
+  }
+}
