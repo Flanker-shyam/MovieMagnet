@@ -4,10 +4,12 @@ const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const helmet = require('helmet');
 const connectDB = require("./databaseConnect/mongooseDB");
+const moviesRoute = require("./routes/moviesRoute");
 
 const port = process.env.PORT || 3001;
 const app = express();
 
+app.use("/movies", moviesRoute);
 app.use(helmet());
 
 

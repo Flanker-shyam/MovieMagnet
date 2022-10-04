@@ -1,0 +1,42 @@
+const express = require("express");
+const router = express.Router();
+const movies = require('../models/moviesModel');
+const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
+var cors = require('cors');
+const helmet = require("helmet");
+const { application } = require("express");
+
+router.use(cors());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(helmet());
+
+router.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+}));
+
+router.get("/", async (req, res) => {
+    const result = await movies.find().sort('name');
+    res.send(result);
+})
+
+router.post("/", async (req, res) => {
+
+    const newMovie = new movies({
+        name: req.body.name,
+        tags: req.body.tags,
+        category: req.body.category
+    });
+
+    try{
+        const result = await newMovie.save();
+        res.send({status: "success", result});
+    }
+    catch(exp)
+    {
+        res.status(500).send(exp.message);
+        console.log(exp.message);
+    }
+})
+
+module.exports = router;
