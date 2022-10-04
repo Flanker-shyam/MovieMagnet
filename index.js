@@ -5,11 +5,13 @@ const bodyParser = require("body-parser");
 const helmet = require('helmet');
 const connectDB = require("./databaseConnect/mongooseDB");
 const moviesRoute = require("./routes/moviesRoute");
+const customerRoute = require("./routes/customerRoute");
 
 const port = process.env.PORT || 3001;
 const app = express();
 
 app.use("/movies", moviesRoute);
+app.use("/customer", customerRoute);
 app.use(helmet());
 
 
