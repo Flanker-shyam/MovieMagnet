@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const joi = require('joi');
 const mongoose = require('mongoose');
@@ -7,22 +8,24 @@ const connectDB = require("./databaseConnect/mongooseDB");
 const moviesRoute = require("./routes/moviesRoute");
 const customerRoute = require("./routes/customerRoute");
 
-const port = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
+const URI = process.env.DB_URL;
+
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(helmet());
 
 app.use("/movies", moviesRoute);
 app.use("/customer", customerRoute);
-app.use(helmet());
 
+connectDB(URI);
 
-connectDB("mongodb://localhost:27017/moviesData");
-
-app.listen(port, (err)=>{
-    if(err)
-    {
+app.listen(PORT, (err) => {
+    if (err) {
         console.log("Error occurred during connection", err);
     }
-    else{
-        console.log("Connection established successfully at:", port );
+    else {
+        console.log("Connection established successfully at:", PORT);
     }
 })
