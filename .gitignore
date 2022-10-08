@@ -1,3 +1,7 @@
+# Editor dependent folder
+.idea
+.vscode
+
 # Logs
 logs
 *.log
