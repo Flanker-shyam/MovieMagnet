@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validators = require("../validators/index");
 
 const moviesSchema = new mongoose.Schema({
     name : {
@@ -15,6 +16,10 @@ const moviesSchema = new mongoose.Schema({
             },
             message : "Need atleast one value in the tags",
         }
+    },
+    genre:{
+        type:String,
+        require:true
     },
     category:{
         type: String,
