@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validators = require('../validators')
-
+const {moviesConfig} = require(`../config/${process.env.NODE_ENV}`)
 const moviesSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -25,6 +25,6 @@ const moviesSchema = new mongoose.Schema({
     }
 });
 
-const Movies = new mongoose.model("Movies", moviesSchema);
+const Movies = new mongoose.model(moviesConfig.name, moviesSchema);
 
 module.exports = Movies;
