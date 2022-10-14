@@ -20,7 +20,6 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-  console.log(req.body)
     const newMovie = new movies({
         name: req.body.name,
         tags: req.body.tags,
@@ -41,7 +40,6 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
     try {
       const result = await movies.findByIdAndUpdate(req.params.id,{$set:req.body},{new:true});
-      console.log(req.params.id);
       if (!result) {
           res.status(404).send("Movie with this title doesn't exist");
       }
@@ -56,7 +54,6 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try { 
       const result = await movies.findByIdAndRemove(req.params.id);
-      console.log(req.params);
       if (!result) {
           res.status(404).send("Movie with this title doesn't exist");
       }

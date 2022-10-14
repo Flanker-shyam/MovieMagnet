@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "test": "mocha test/**/*.intg.js --exit",
     "dev": "nodemon index.js"
   },
   "author": "Flanker",
