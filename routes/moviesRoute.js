@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 var cors = require('cors');
 const helmet = require("helmet");
+const {Genre} = require("../models/genreModel");
 
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -20,11 +21,18 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
+    const genre = await Genre.findById(req.body.genreId);
+    if(!genre){return res.status(400).send("Invalid Genre Id")};
+
     const newMovie = new movies({
-        name: req.body.name,
+        title: req.body.title,
         tags: req.body.tags,
-        category: req.body.category,
-        genre:req.body.genre
+        genre:{
+            _id:genre._id,
+            name : genre.name
+        },
+        numberInStock:req.body.numberInStock,
+        dailyRentalrate:req.body.dailyRentalrate
     });
 
     try {
