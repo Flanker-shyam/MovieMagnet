@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const connectDB = require("./databaseConnect/mongooseDB");
 const moviesRoute = require("./routes/moviesRoute");
 const customerRoute = require("./routes/customerRoute");
+const genreRoute = require("./routes/genreRoute");
 
 const PORT = process.env.PORT || 3001;
 const URI = process.env.DB_URL;
@@ -18,6 +19,7 @@ app.use(helmet());
 
 app.use("/movies", moviesRoute);
 app.use("/customer", customerRoute);
+app.use("/genre", genreRoute);
 
 connectDB(URI);
 

@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
-const validators = require('../validators/movieValidations')
-const {moviesConfig} = require(`../config/${process.env.NODE_ENV}`)
+const validators = require('../validators/movieValidations');
+const {moviesConfig} = require(`../config/${process.env.NODE_ENV}`);
+const {genreSchema} = require("./genreModel");
+
 const moviesSchema = new mongoose.Schema({
-    name : {
+    title : {
         type:String,
         require : true,
         minlength : 5,
+        maxlength: 255,
+        trim:true,
         lowercase:true
     },
     tags:{
@@ -16,13 +20,21 @@ const moviesSchema = new mongoose.Schema({
         }
     },
     genre:{
-        type:String,
+        type:genreSchema,
         require:true
     },
-    category:{
-        type: String,
+    numberInStock:{
+        type : Number,
+        min:0,
+        max:255,
         require : true
     },
+    dailyRentalrate:{
+        type : Number,
+        min:0,
+        max : 255,
+        require: true
+    }
 });
 
 const Movies = new mongoose.model(moviesConfig.name, moviesSchema);
