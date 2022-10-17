@@ -31,3 +31,4 @@ app.listen(PORT, (err) => {
         console.log("Connection established successfully at:", PORT);
     }
 })
+module.exports = app

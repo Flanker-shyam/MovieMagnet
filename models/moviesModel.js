@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const validators = require("../validators/movieValidations");
+const validators = require('../validators/movieValidations');
+const {moviesConfig} = require(`../config/${process.env.NODE_ENV}`);
 const {genreSchema} = require("./genreModel");
 
 const moviesSchema = new mongoose.Schema({
@@ -14,10 +15,8 @@ const moviesSchema = new mongoose.Schema({
     tags:{
         type:Array,
         validate:{
-            validator: function(v){
-                return (v && v.length>0);
-            },
-            message : "Need atleast one value in the tags",
+            validator: validators.validateTags,
+            message : "Need at least one value in the tags",
         }
     },
     genre:{
@@ -38,6 +37,6 @@ const moviesSchema = new mongoose.Schema({
     }
 });
 
-const Movies = new mongoose.model("Movies", moviesSchema);
+const Movies = new mongoose.model(moviesConfig.name, moviesSchema);
 
 module.exports = Movies;
