@@ -1,7 +1,7 @@
 {
   "name": "moviesapi",
   "version": "1.0.0",
-  "description": "",
+  "description": "A moviesApI to handle movie search request of the customers",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -15,10 +15,12 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
+    "fawn": "^2.1.5",
     "file-upload": "^0.0.0",
     "helmet": "^6.0.0",
     "joi": "^17.6.2",
-    "mongoose": "^6.6.4",
+    "mongodb": "^4.10.0",
+    "mongoose": "^6.6.5",
     "router": "^1.3.7"
   },
   "devDependencies": {
