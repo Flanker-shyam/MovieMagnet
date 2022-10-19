@@ -71,7 +71,7 @@ router.post("/", async (req, res) => {
     }
     catch(exp)
     {
-        res.status(500).send("Error occurred in fawn ops");
+        res.status(500).send("Error occurred in ops");
     }
 });
 
