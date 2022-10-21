@@ -69,6 +69,7 @@ router.post("/", async (req, res) => {
         await session.commitTransaction();
         res.send(addedMovie);
     }
+
     catch (e) {
         await session.abortTransaction();
         res.send(e.message);
@@ -79,4 +80,3 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
-
