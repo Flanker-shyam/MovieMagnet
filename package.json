@@ -11,6 +11,7 @@
   "author": "Flanker",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -21,6 +22,8 @@
     "helmet": "^6.0.0",
     "joi": "^17.6.3",
     "joi-objectid": "^4.0.2",
+    "joi-password-complexity": "^5.1.0",
+    "lodash": "^4.17.21",
     "mongodb": "^4.10.0",
     "mongoose": "^6.6.5",
     "router": "^1.3.7"

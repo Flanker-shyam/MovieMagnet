@@ -8,6 +8,7 @@ const moviesRoute = require("./routes/moviesRoute");
 const customerRoute = require("./routes/customerRoute");
 const genreRoute = require("./routes/genreRoute");
 const rentalRoute = require("./routes/rentalRoute");
+const userRoute = require("./routes/UserRoute");
 
 const PORT = process.env.PORT || 3001;
 const URI = process.env.DB_URL;
@@ -21,6 +22,7 @@ app.use("/movies", moviesRoute);
 app.use("/customer", customerRoute);
 app.use("/genre", genreRoute);
 app.use("/rental", rentalRoute);
+app.use("/user",userRoute);
 
 connectDB(URI);
 
