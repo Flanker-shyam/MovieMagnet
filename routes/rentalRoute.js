@@ -8,6 +8,7 @@ const helmet = require("helmet");
 const rental = require("../models/rentalModel");
 const Customer = require("../models/customerModel");
 const Movie = require("../models/moviesModel");
+const {rentalValidate} = require("../validators/joi_validations");
 
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -32,6 +33,14 @@ router.post("/", async (req, res) => {
 
     const customer = await Customer.findById(req.body.customerId);
     const movie = await Movie.findById(req.body.movieId);
+
+    const {error , value} = rentalValidate.validate({customer : req.body.customerId , movie : req.body.movieId});
+
+    if(error)
+    {
+        res.send(error.message);
+        return console.log(error);
+    }
 
     if (!customer || !movie) {
         return res.status(400).send("invalid customer or Movie");
@@ -76,6 +85,7 @@ router.post("/", async (req, res) => {
         console.error(e);
     } finally {
         session.endSession();
+  
     }
 });
 

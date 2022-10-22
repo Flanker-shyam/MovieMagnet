@@ -1,6 +1,5 @@
-const { boolean } = require('joi');
-const { default: mongoose } = require('mongoose');
-const mongooose = require('mongoose');
+
+const mongoose = require("mongoose");
 
 
 const customerScheme = new mongoose.Schema({
@@ -19,9 +18,9 @@ const customerScheme = new mongoose.Schema({
         type: String,
         required: true,
         length:10
-    },
+    }
 });
 
-const Customer = new mongooose.model("Customer", customerScheme);
+const Customer = new mongoose.model("Customer", customerScheme);
 
 module.exports = Customer;

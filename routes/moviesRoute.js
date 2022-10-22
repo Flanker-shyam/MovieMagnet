@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 var cors = require('cors');
 const helmet = require("helmet");
-const {Genre} = require("../models/genreModel");
+const { Genre } = require("../models/genreModel");
+const { movieValidate } = require("../validators/joi_validations");
 
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -22,17 +23,24 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const genre = await Genre.findById(req.body.genreId);
-    if(!genre){return res.status(400).send("Invalid Genre Id")};
+    if (!genre) { return res.status(400).send("Invalid Genre Id") };
 
+    const { error, value } = movieValidate.validate({title:req.body.title, tags:[req.body.tags], genre:req.body.genreId});
+
+    if(error)
+    {
+        res.send(error.message);
+        return console.log(error);
+    }
     const newMovie = new movies({
         title: req.body.title,
         tags: req.body.tags,
-        genre:{
-            _id:genre._id,
-            name : genre.name
+        genre: {
+            _id: genre._id,
+            name: genre.name
         },
-        numberInStock:req.body.numberInStock,
-        dailyRentalrate:req.body.dailyRentalrate
+        numberInStock: req.body.numberInStock,
+        dailyRentalrate: req.body.dailyRentalrate
     });
 
     try {
@@ -47,30 +55,32 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
     try {
-      const result = await movies.findByIdAndUpdate(req.params.id,{$set:req.body},{new:true});
-      if (!result) {
-          res.status(404).send("Movie with this title doesn't exist");
-      }
-      else {
-          res.send(result);
-      }
+        const result = await movies.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+        console.log(req.params.id);
+        if (!result) {
+            res.status(404).send("Movie with this title doesn't exist");
+        }
+        else {
+            res.send(result);
+        }
     } catch (e) {
-          res.status(500).send("Internal Server Error")
+        res.status(500).send("Internal Server Error")
     }
 });
 
 router.delete("/:id", async (req, res) => {
-  try { 
-      const result = await movies.findByIdAndRemove(req.params.id);
-      if (!result) {
-          res.status(404).send("Movie with this title doesn't exist");
-      }
-      else {
-          res.send(result);
-      }
-  } catch(e) {
-    res.status(500).send("Internal Server Error")
-  }
+    try {
+        const result = await movies.findByIdAndRemove(req.params.id);
+        console.log(req.params);
+        if (!result) {
+            res.status(404).send("Movie with this title doesn't exist");
+        }
+        else {
+            res.send(result);
+        }
+    } catch (e) {
+        res.status(500).send("Internal Server Error")
+    }
 })
 
 module.exports = router;

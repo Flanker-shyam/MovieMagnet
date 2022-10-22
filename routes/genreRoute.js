@@ -5,6 +5,7 @@ const fileUpload = require("express-fileupload");
 var cors = require('cors');
 const helmet = require("helmet");
 const {Genre} = require("../models/genreModel");
+const {genreValidate} = require("../validators/joi_validations");
 
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -20,6 +21,14 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
+    
+    const {error,value} = genreValidate.validate({name : req.body.name});
+
+    if(error)
+    {
+        res.send(error.message);
+        return console.log(error);
+    }
     
     const newGenre = new Genre({
         name: req.body.name

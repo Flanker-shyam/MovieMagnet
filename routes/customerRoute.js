@@ -7,6 +7,7 @@ const fileUpload = require("express-fileupload");
 var cors = require('cors');
 const helmet = require("helmet");
 const { application } = require("express");
+const {customerValidate } = require("../validators/joi_validations");
 
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -22,6 +23,13 @@ router.get("/", async(req,res)=>{
 });
 
 router.post("/", async(req,res)=>{
+
+    const {error,value} = customerValidate.validate({name:req.body.name ,isGold : req.body.isGold, phone:req.body.phone});
+    if(error)
+    {
+        res.send(error.message);
+        return console.log(error);
+    }
     
     const newCustomer = new customer({
         name : req.body.name,
