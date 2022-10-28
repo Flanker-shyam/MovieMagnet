@@ -9,6 +9,7 @@ const { userValidate } = require("../validators/joi_validations");
 const _ = require("lodash");
 const passwordComplexity = require("joi-password-complexity");
 const bcrypt = require("bcrypt");
+const auth = require("../middleware/auth");
 
 const complexityOptions = {
     min: 6,
@@ -28,18 +29,22 @@ router.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
 }));
 
+router.get("/me", auth , async(req,res)=>{
+    const user = await User.findById(req.body._Id).select("-password");
+    res.send(user);
+})
+
 router.post("/", async (req, res) => {
 
-    var{ error } = userValidate.validate({ name: req.body.name, email: req.body.email, password: req.body.password, repeat_password: req.body.repeat_password });
+    var { error } = userValidate.validate({ name: req.body.name, email: req.body.email, password: req.body.password, repeat_password: req.body.repeat_password });
 
     if (error) {
         res.send(error.message);
         return console.log(error);
     }
 
-    var {error} = passwordComplexity(complexityOptions).validate(req.body.password);
-    if(error)
-    {
+    var { error } = passwordComplexity(complexityOptions).validate(req.body.password);
+    if (error) {
         return res.send(error.message);
     }
 
@@ -49,12 +54,13 @@ router.post("/", async (req, res) => {
     }
 
     const newUser = new User(_.pick(req.body, ["name", "email", "password"]));
-    const salt =await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10);
     newUser.password = await bcrypt.hash(newUser.password, salt);
 
     try {
         await newUser.save();
-        res.send(_.pick(newUser, ['_id', 'name', 'email']));
+        const token = newUser.generateAuthToken();
+        res.header('x-user-auth-token',token).send(_.pick(newUser, ['_id', 'name', 'email']));
     }
     catch (exp) {
         res.status(500).send(exp.message)

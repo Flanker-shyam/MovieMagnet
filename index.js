@@ -1,30 +1,30 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require("body-parser");
-const helmet = require('helmet');
 const connectDB = require("./databaseConnect/mongooseDB");
-const moviesRoute = require("./routes/moviesRoute");
-const customerRoute = require("./routes/customerRoute");
-const genreRoute = require("./routes/genreRoute");
-const rentalRoute = require("./routes/rentalRoute");
-const userRoute = require("./routes/UserRoute");
+
+const app = express();
+
+require("./startup/logger");
+require("./startup/routes")(app);
+require("./startup/config")();
 
 const PORT = process.env.PORT || 3001;
 const URI = process.env.DB_URL;
 
-const app = express();
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(helmet());
-
-app.use("/movies", moviesRoute);
-app.use("/customer", customerRoute);
-app.use("/genre", genreRoute);
-app.use("/rental", rentalRoute);
-app.use("/user",userRoute);
+//connect to the database
 
 connectDB(URI);
+
+app.use("*", (req, res) => {
+    res.status(404).json({
+        success: "false",
+        message: "Page not found",
+        error: {
+            statusCode: 404,
+            message: "You reached a route that is not defined on this server",
+        },
+    });
+});
 
 app.listen(PORT, (err) => {
     if (err) {

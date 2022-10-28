@@ -59,10 +59,20 @@ const userValidate = joi.object({
     repeat_password: joi.ref('password'),
 
 })
-.with('password', 'repeat_password');
+    .with('password', 'repeat_password');
+
+const authValidate = joi.object({
+    email: joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+
+    password: joi.string()
+        .pattern(new RegExp('^[A-Za-z][A-Za-z0-9@#%&*]*$')),
+
+});
 
 exports.movieValidate = movieValidate;
 exports.customerValidate = customerValidate;
 exports.rentalValidate = rentalValidate;
 exports.genreValidate = genreValidate;
 exports.userValidate = userValidate;
+exports.authValidate = authValidate;

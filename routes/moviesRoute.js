@@ -7,6 +7,7 @@ var cors = require('cors');
 const helmet = require("helmet");
 const { Genre } = require("../models/genreModel");
 const { movieValidate } = require("../validators/joi_validations");
+const auth = require("../middleware/auth");
 
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -16,12 +17,12 @@ router.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
 }));
 
-router.get("/", async (req, res) => {
+router.get("/",async (req, res) => {
     const result = await movies.find().sort('name');
     res.send(result);
 })
 
-router.post("/", async (req, res) => {
+router.post("/",auth, async (req, res) => {
     const genre = await Genre.findById(req.body.genreId);
     if (!genre) { return res.status(400).send("Invalid Genre Id") };
 
@@ -53,7 +54,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",auth, async (req, res) => {
     try {
         const result = await movies.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
         console.log(req.params.id);
@@ -68,7 +69,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",auth, async (req, res) => {
     try {
         const result = await movies.findByIdAndRemove(req.params.id);
         console.log(req.params);
