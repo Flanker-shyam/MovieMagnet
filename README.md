@@ -28,6 +28,12 @@ DB_URL=mongodb://localhost:27017/moviesData
 DB_NAME=moviesData
 DB_COLLECTION=moviesData
 ```
+###set jwtPrivateKey value to the environment
+Here is the closed "" you can provide any string, minimum length 32 characters. 
+This command will work in linux and macOS
+```
+export moviesApi_jwtPrivateKey= ""
+``
 
 ### Start the mongoDB server on port `27017`
 
