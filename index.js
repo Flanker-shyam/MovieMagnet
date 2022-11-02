@@ -9,11 +9,11 @@ require("./startup/routes")(app);
 require("./startup/config")();
 
 const PORT = process.env.PORT || 3001;
-const URI = process.env.DB_URL;
+const URI = process.env.MONGO_URL || "mongodb://localhost:27017/";
 
 //connect to the database
 
-connectDB(URI);
+connectDB(URI + "moviesData");
 
 app.use("*", (req, res) => {
     res.status(404).json({
