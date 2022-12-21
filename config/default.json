@@ -1,3 +1,4 @@
 {
-    "jwtPrivatekey" : ""
+    "jwtPrivatekey" : "",
+    "db" : "mongodb://localhost:27017/moviesData"
 }

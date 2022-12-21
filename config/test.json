@@ -1,0 +1,4 @@
+{
+    "jwtPrivatekey" : "FlankerIsAGood12334@537dgwuycbecygef",
+    "db" : "mongodb://localhost:27017/moviesData_tests"
+}

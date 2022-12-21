@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const validators = require('../validators/movieValidations');
-const {moviesConfig} = require(`../config/${process.env.NODE_ENV}`);
 const {genreSchema} = require("./genreModel");
 
 const moviesSchema = new mongoose.Schema({
@@ -37,6 +36,6 @@ const moviesSchema = new mongoose.Schema({
     }
 });
 
-const Movies = new mongoose.model(moviesConfig.name, moviesSchema);
+const Movies = new mongoose.model("movies", moviesSchema);
 
 module.exports = Movies;

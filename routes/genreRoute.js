@@ -7,6 +7,8 @@ const helmet = require("helmet");
 const { Genre } = require("../models/genreModel");
 const { genreValidate } = require("../validators/joi_validations");
 const auth = require("../middleware/auth");
+const { default: mongoose } = require("mongoose");
+const validateObjectId = require("../middleware/validateObjectId");
 
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -22,12 +24,21 @@ router.get("/", async (req, res) => {
     res.send(result);
 })
 
+router.get("/:id", validateObjectId, async (req, res) => {
+    const result = await Genre.findById(req.params.id);
+
+    if (!result) {
+        return res.status(404).send("Genre with this Id doesn't exist");
+    }
+    res.status(200).send(result);
+});
+
 router.post("/", auth, async (req, res) => {
 
     const { error } = genreValidate.validate({ name: req.body.name });
 
     if (error) {
-        res.send(error.message);
+        res.status(400).send(error.message);
         return console.log(error);
     }
 
@@ -44,5 +55,21 @@ router.post("/", auth, async (req, res) => {
         console.log(exp.message);
     }
 });
+
+router.delete("/:id", auth, async(req,res)=>{
+    const result = await Genre.findByIdAndRemove(req.params.id);
+    if (!result) {
+        return res.status(404).send("Genre with this Id doesn't exist");
+    }
+    res.status(200).send(result);
+});
+
+router.put("/:id", auth, async(req,res)=>{
+    const result = await Genre.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+    if (!result) {
+        return res.status(404).send("Genre with this Id doesn't exist");
+    }
+    res.send(result);
+})
 
 module.exports = router;
