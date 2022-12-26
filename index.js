@@ -38,7 +38,7 @@ app.use((req, res, next) => {
     logger.error(`400 || ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
 })
 
-const server =app.listen(PORT, (err) => {
+const server=app.listen(PORT, (err) => {
     if (err) {
         console.log("Error occurred during connection", err);
     }
