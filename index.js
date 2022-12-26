@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const connectDB = require("./databaseConnect/mongooseDB");
+const config = require("config");
 
 const app = express();
 
@@ -9,7 +10,7 @@ require("./startup/routes")(app);
 require("./startup/config")();
 
 const PORT = process.env.PORT || 3001;
-const URI = process.env.DB_URL;
+const URI = config.get("db");
 
 //connect to the database
 
@@ -26,7 +27,18 @@ app.use("*", (req, res) => {
     });
 });
 
-app.listen(PORT, (err) => {
+app.use((err, req, res, next) => {
+    res.status(500).send('Could not perform the calculation!');
+    logger.error(`${err.status || 500} - ${res.statusMessage} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+})
+
+// Capture 404 erors
+app.use((req, res, next) => {
+    res.status(404).send("PAGE NOT FOUND");
+    logger.error(`400 || ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+})
+
+const server=app.listen(PORT, (err) => {
     if (err) {
         console.log("Error occurred during connection", err);
     }
@@ -34,4 +46,4 @@ app.listen(PORT, (err) => {
         console.log("Connection established successfully at:", PORT);
     }
 })
-module.exports = app
+module.exports = server;

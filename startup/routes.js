@@ -1,6 +1,5 @@
 
 const express = require("express");
-const bodyParser = require("body-parser");
 const helmet = require('helmet');
 const moviesRoute = require("../routes/moviesRoute");
 const customerRoute = require("../routes/customerRoute");

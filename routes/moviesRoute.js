@@ -17,7 +17,7 @@ router.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
 }));
 
-router.get("/",async (req, res) => {
+router.get("/",async (req, res) => {  
     const result = await movies.find().sort('name');
     res.send(result);
 })
@@ -26,7 +26,7 @@ router.post("/",auth, async (req, res) => {
     const genre = await Genre.findById(req.body.genreId);
     if (!genre) { return res.status(400).send("Invalid Genre Id") };
 
-    const { error, value } = movieValidate.validate({title:req.body.title, tags:[req.body.tags], genre:req.body.genreId});
+    const { error } = movieValidate.validate({title:req.body.title, tags:[req.body.tags], genre:req.body.genreId});
 
     if(error)
     {
@@ -80,8 +80,8 @@ router.delete("/:id",auth, async (req, res) => {
             res.send(result);
         }
     } catch (e) {
-        res.status(500).send("Internal Server Error")
+        res.status(500).send("Internal Server Error");
     }
-})
+});
 
 module.exports = router;
