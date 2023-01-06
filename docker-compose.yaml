@@ -19,8 +19,9 @@ services:
     
   mongo-db:
     image: mongo
-    ports:
-      - 27017:27017
+    # uncomment this line if you want to access mongoDB without moviesapi app
+    # ports:
+    #   - 27017:27017
     volumes:
       - moviesapi-mongo-data:/data/db
 volumes:
