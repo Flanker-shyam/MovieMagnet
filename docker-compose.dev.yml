@@ -26,6 +26,6 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - moviesapi-mongo-data:/data/db
+      - moviesapi-mongo-data-dev:/data/db
 volumes:
-  moviesapi-mongo-data:
+  moviesapi-mongo-data-dev:
