@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  app:
+    image: moviesapi
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - NODE_ENV=production
+    environment:
+      - PORT=3000
+      - MONGO_URL=mongodb://mongo-db:27017/
+      - moviesApi_jwtPrivateKey=example_moviesApi_jwtPrivateKey
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo-db
+    
+  mongo-db:
+    image: mongo
+    volumes:
+      - moviesapi-mongo-data:/data/db
+volumes:
+  moviesapi-mongo-data:
