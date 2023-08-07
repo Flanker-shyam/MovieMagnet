@@ -1,5 +1,4 @@
-# Movies-API
-
+# MovieMagnet
 This Project is an API that will handle the movies search request of the users.
 The record of the movies is stored in a database and the API will fetch the data from the database and return the result to the user. The API will also handle the request of the user to add a new movie to the database.
 
