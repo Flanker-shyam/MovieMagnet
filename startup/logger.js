@@ -26,4 +26,5 @@ module.exports = function (app) {
     process.on("unhandledRejection", (ex) => {
         throw (ex);
     });
+    return logger;
 };

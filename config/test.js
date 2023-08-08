@@ -1,7 +1,7 @@
-const movies = {
-  name: "Movies_test"
+const games = {
+  name: "Games_test"
 }
 
 module.exports = {
-  moviesConfig: movies
+  gamesConfig: games
 }

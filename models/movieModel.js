@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validators = require('../validators/movieValidations');
 const {genreSchema} = require("./genreModel");
 
-const moviesSchema = new mongoose.Schema({
+const movieSchema = new mongoose.Schema({
     title : {
         type:String,
         require : true,
@@ -36,6 +36,6 @@ const moviesSchema = new mongoose.Schema({
     }
 });
 
-const Movies = new mongoose.model("movies", moviesSchema);
+const movie = new mongoose.model("movie", movieSchema);
 
-module.exports = Movies;
+module.exports = movie;

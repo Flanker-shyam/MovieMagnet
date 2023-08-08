@@ -7,7 +7,7 @@ var cors = require('cors');
 const helmet = require("helmet");
 const rental = require("../models/rentalModel");
 const Customer = require("../models/customerModel");
-const Movie = require("../models/moviesModel");
+const Movie = require("../models/movieModel");
 const {rentalValidate} = require("../validators/joi_validations");
 
 router.use(cors());
@@ -21,11 +21,12 @@ router.use(fileUpload({
 
 router.get("/", async (req, res) => {
     try {
-        const rentals = await rental.find({}).sort(-outDate);
-        res.send(rentals);
+        const rentals = await rental.find({}).sort(-'outDate');
+        res.status(200).send(rentals);
     }
     catch (exp) {
-        res.status(400).send("Error occurred during fetching rentals", exp);
+        console.log(exp);
+        res.status(400).send(`Error occurred during fetching rentals+ ${exp}`);
     }
 });
 
@@ -69,7 +70,7 @@ router.post("/", async (req, res) => {
     try {
         const addedMovie = await rental.create([newRental],{session});
         const foundMovie = await Movie.findOne({ _id: movie._id }, null, { session });
-        console.log(foundMovie);
+        // console.log(foundMovie);
 
         foundMovie.numberInStock = foundMovie.numberInStock-1;
 
