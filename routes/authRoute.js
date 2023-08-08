@@ -10,7 +10,6 @@ const bcrypt = require("bcrypt");
 const joi = require("joi");
 const { authValidate } = require("../validators/joi_validations");
 
-
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(helmet());
@@ -41,7 +40,8 @@ router.post("/", async (req, res) => {
 
     try {
         const token = user.generateAuthToken();
-        res.status(200).send(token);
+        res.header('x-user-auth-token',token).status(200).send("Login successful");
+        // res.status(200).send(token);
     }
     catch (exp) {
         res.status(500).send(exp.message)

@@ -5,7 +5,7 @@ const config = require("config");
 
 const app = express();
 
-require("./startup/logger");
+const logger = require("./startup/logger")(app);
 require("./startup/routes")(app);
 require("./startup/config")();
 

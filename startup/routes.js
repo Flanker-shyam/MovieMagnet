@@ -1,7 +1,7 @@
 
 const express = require("express");
 const helmet = require('helmet');
-const moviesRoute = require("../routes/moviesRoute");
+const movieRoute = require("../routes/movieRoute");
 const customerRoute = require("../routes/customerRoute");
 const genreRoute = require("../routes/genreRoute");
 const rentalRoute = require("../routes/rentalRoute");
@@ -12,7 +12,7 @@ const authRoute = require("../routes/authRoute");
 module.exports = function (app) {
     app.use(express.json());
     app.use(helmet());
-    app.use("/movies", moviesRoute);
+    app.use("/movie", movieRoute);
     app.use("/customer", customerRoute);
     app.use("/genre", genreRoute);
     app.use("/rental", rentalRoute);

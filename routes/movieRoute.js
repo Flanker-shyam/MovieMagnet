@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const movies = require('../models/moviesModel');
+const movies = require('../models/movieModel');
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 var cors = require('cors');
@@ -24,16 +24,17 @@ router.get("/",async (req, res) => {
 
 router.post("/",auth, async (req, res) => {
     const genre = await Genre.findById(req.body.genreId);
+
     if (!genre) { return res.status(400).send("Invalid Genre Id") };
 
-    const { error } = movieValidate.validate({title:req.body.title, tags:[req.body.tags], genre:req.body.genreId});
+    const { error } = movieValidate.validate({title:req.body.title, tags:req.body.tags, genre:req.body.genreId});
 
     if(error)
     {
         res.send(error.message);
         return console.log(error);
     }
-    const newMovie = new movies({
+    const newmovie = new movies({
         title: req.body.title,
         tags: req.body.tags,
         genre: {
@@ -45,7 +46,7 @@ router.post("/",auth, async (req, res) => {
     });
 
     try {
-        const result = await newMovie.save();
+        const result = await newmovie.save();
         res.send({ status: "success", result });
     }
     catch (exp) {
@@ -57,15 +58,14 @@ router.post("/",auth, async (req, res) => {
 router.put("/:id",auth, async (req, res) => {
     try {
         const result = await movies.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
-        console.log(req.params.id);
         if (!result) {
-            res.status(404).send("Movie with this title doesn't exist");
+            res.status(404).send("movie with this title doesn't exist");
         }
         else {
             res.send(result);
         }
     } catch (e) {
-        res.status(500).send("Internal Server Error")
+        res.status(500).send("Internal Server Error");
     }
 });
 
@@ -74,7 +74,7 @@ router.delete("/:id",auth, async (req, res) => {
         const result = await movies.findByIdAndRemove(req.params.id);
         console.log(req.params);
         if (!result) {
-            res.status(404).send("Movie with this title doesn't exist");
+            res.status(404).send("movie with this title doesn't exist");
         }
         else {
             res.send(result);

@@ -6,7 +6,7 @@ const Movies = require("../../models/moviesModel");
 const User = require("../../models/UserModel");
 const { Genre } = require("../../models/genreModel");
 
-describe("MoviesRoute", () => {
+describe("moviesRoute", () => {
 
     beforeEach(() => { server = require("../../index"); })
     afterEach(async () => {
@@ -38,7 +38,7 @@ describe("MoviesRoute", () => {
                     numberInStock: 5,
                     dailyRentalrate: 43
                 }]);
-            const result = await request(server).get("/movies");
+            const result = await request(server).get("/moviess");
             expect(result.status).toBe(200);
             expect(result.body.length).toBe(2);
             expect(result.body.some(g => g.title === "Hello1")).toBeTruthy();
@@ -98,7 +98,7 @@ describe("MoviesRoute", () => {
             expect(genre).toBe(null);
         });
 
-        it("Should save the moovie in the database if all the arguments are correct", async () => {
+        it("Should save the movie in the database if all the arguments are correct", async () => {
             await exec();
 
             const movie = Movies.find({ title: "Hello1" });
@@ -113,7 +113,7 @@ describe("MoviesRoute", () => {
             token = new User().generateAuthToken();
         });
 
-        it("Should Delete a movie with the given object Id", async () => {
+        it("Should Delete a movies with the given object Id", async () => {
             const movie = new Movies({
                 title: "Hello1",
                 tags: ["ok"],
