@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validators = require('../validators/movieValidations');
 const {genreSchema} = require("./genreModel");
+const { minBy, lowerCase } = require('lodash');
 
 const movieSchema = new mongoose.Schema({
     title : {
@@ -10,6 +11,21 @@ const movieSchema = new mongoose.Schema({
         maxlength: 255,
         trim:true,
         lowercase:true
+    },
+    description: {
+        type:String,
+        require:false,
+        maxlength:76500,
+        trim:true,
+        lowercase:true
+    },
+    imagePath: {
+        type:String,
+        require: false,
+    },
+    cast:{
+        type:Array,
+        require: true
     },
     tags:{
         type:Array,

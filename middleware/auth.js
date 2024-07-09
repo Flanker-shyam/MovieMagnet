@@ -13,7 +13,8 @@ module.exports = (req,res,next)=>
     }
 
     try{ 
-        const decoded = jwt.verify(token , config.get('jwtPrivatekey'));
+        const jwt_key = process.env.JWT_KEY
+        const decoded = jwt.verify(token , jwt_key);
         req.user= decoded;
         next();
     }

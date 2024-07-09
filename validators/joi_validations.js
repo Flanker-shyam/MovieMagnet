@@ -1,4 +1,5 @@
 
+const Joi = require("joi");
 const joi = require("joi");
 joi.objectId = require("joi-objectid")(joi);
 
@@ -8,6 +9,9 @@ const movieValidate = joi.object({
         .min(3)
         .max(50)
     ,
+    description: Joi.string().max(76500),
+    image_path: Joi.string(),
+    cast:Joi.array(),
     tags: joi.array().items(joi.string()).required()
     ,
     genre: joi.objectId().required()

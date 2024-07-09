@@ -9,7 +9,7 @@ describe("User.generateAuthToken", () => {
         const payload = {_id: new mongoose.Types.ObjectId().toHexString()};
         const user = new User(payload);
         const token = user.generateAuthToken();
-        const decoded = jwt.verify(token , config.get("jwtPrivatekey"));
+        const decoded = jwt.verify(token , process.env.JWT_KEY);
         expect(decoded).toMatchObject(payload);
     })
 });

@@ -7,10 +7,10 @@ const app = express();
 
 const logger = require("./startup/logger")(app);
 require("./startup/routes")(app);
-require("./startup/config")();
+// require("./startup/config")();
 
 const PORT = process.env.PORT || 3001;
-const URI = config.get("db");
+const URI = process.env.DB_URL;
 
 //connect to the database
 

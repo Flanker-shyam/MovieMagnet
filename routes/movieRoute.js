@@ -8,6 +8,8 @@ const helmet = require("helmet");
 const { Genre } = require("../models/genreModel");
 const { movieValidate } = require("../validators/joi_validations");
 const auth = require("../middleware/auth");
+const fs = require('fs');
+const multer = require("multer")
 
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -16,13 +18,25 @@ router.use(helmet());
 router.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
 }));
+ 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/",async (req, res) => {  
+    console.log("request hereeeee")
     const result = await movies.find().sort('name');
     res.send(result);
 })
 
-router.post("/",auth, async (req, res) => {
+router.post("/",auth,upload.single('image'), async (req, res) => {
     const genre = await Genre.findById(req.body.genreId);
 
     if (!genre) { return res.status(400).send("Invalid Genre Id") };
@@ -37,6 +51,12 @@ router.post("/",auth, async (req, res) => {
     const newmovie = new movies({
         title: req.body.title,
         tags: req.body.tags,
+        description:req.body.description,
+        image_path:{
+            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        },
+        cast: req.body.cast,
         genre: {
             _id: genre._id,
             name: genre.name
