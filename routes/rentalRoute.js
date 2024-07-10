@@ -9,6 +9,7 @@ const rental = require("../models/rentalModel");
 const Customer = require("../models/customerModel");
 const Movie = require("../models/movieModel");
 const {rentalValidate} = require("../validators/joi_validations");
+const UserModel = require("../models/UserModel");
 
 router.use(cors());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -32,7 +33,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
 
-    const customer = await Customer.findById(req.body.customerId);
+    const customer = await UserModel.findById(req.body.customerId);
     const movie = await Movie.findById(req.body.movieId);
 
     const {error , value} = rentalValidate.validate({customer : req.body.customerId , movie : req.body.movieId});

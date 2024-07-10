@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 5,
         maxlength: 1024
+    },
+    isGold: {
+        type: Boolean,
+        default:false
     }
 });
 
