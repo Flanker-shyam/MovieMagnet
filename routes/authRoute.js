@@ -27,7 +27,6 @@ router.post("/", async (req, res) => {
         return console.log(error);
     }
 
-
     let user = await User.findOne({ email: req.body.email });
     if (!user) {
         return res.status(400).send("Invalid email or Password");
@@ -40,12 +39,19 @@ router.post("/", async (req, res) => {
 
     try {
         const token = user.generateAuthToken();
-        res.header('x-user-auth-token',token).status(200).send("Login successful");
-        // res.status(200).send(token);
-    }
-    catch (exp) {
-        res.status(500).send(exp.message)
+        
+        // Add the token to the user object and exclude the password
+        const userWithToken = {
+            ...user.toObject(),
+            token: token
+        };
+        delete userWithToken.password;
+
+        res.status(200).send(userWithToken);
+    } catch (exp) {
+        res.status(500).send(exp.message);
     }
 });
+
 
 module.exports = router;
